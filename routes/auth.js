@@ -8,7 +8,7 @@ const prisma = require('../db'); // Import your Prisma client
 // API Signup Route
 router.post('/signup', async (req, res) => {
   try {
-    const { email, password } = req.body;
+    const { email, password ,isTherapistFriend} = req.body;
 
     // Check if user already exists
     const existingUser = await prisma.user.findUnique({
@@ -27,6 +27,7 @@ router.post('/signup', async (req, res) => {
       data: {
         email: email,
         password: hashedPassword,
+        isTherapistFriend:isTherapistFriend
       },
     });
 
