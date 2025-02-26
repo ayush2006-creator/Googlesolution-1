@@ -7,6 +7,7 @@ const session = require('express-session')
 require('./passport')(passport);
 
 const authRoutes= require('./routes/auth');
+const friendRoutes=require('./routes/friend')
 app.use(session({
     secret: "secret",
     resave: false ,
@@ -21,6 +22,7 @@ app.use(session({
   app.use(express.json());
 
 app.use('/api',authRoutes);
+app.use('/api/friends',friendRoutes)
 
   app.listen(3000, () => {
     console.log(`Server is running on port 3000`);

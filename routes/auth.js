@@ -31,12 +31,17 @@ router.post('/signup', async (req, res) => {
       },
     });
 
-    res.status(201).json({ message: 'User registered successfully!' });
-  } catch (error) {
-    console.error('Signup error:', error);
-    res.status(500).json({ message: 'Internal server error.' });
-  }
-});
+    req.logIn(newUser, (err) => {
+        if (err) {
+          return res.status(500).json({ message: 'Internal server error during login.' });
+        }
+        return res.status(201).json({ message: 'User registered and logged in successfully!' });
+      });
+    } catch (error) {
+      console.error('Signup error:', error);
+      res.status(500).json({ message: 'Internal server error.' });
+    }
+  });
 
 // API Login Route
 router.post('/login', (req, res, next) => {
