@@ -3,12 +3,12 @@ generator client {
 }
 
 datasource db {
-  provider = "mongodb"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
 model User {
-  id                String       @id @default(auto()) @map("_id") @db.ObjectId
+  id                String       @id @default(uuid()) @db.Uuid
   email             String       @unique
   password          String
   isTherapistFriend Boolean      @default(false)
@@ -16,12 +16,12 @@ model User {
   streaks           Streak[]     @relation("UserStreaks")
   friendships       Friendships[] @relation("UserFriendships")
   inverseFriendships Friendships[] @relation("InverseUserFriendships")
-  blogs Blog[]
+  blogs             Blog[]
 }
 
 model Streak {
-  id            String    @id @default(auto()) @map("_id") @db.ObjectId
-  userId        String    @db.ObjectId
+  id            String    @id @default(uuid()) @db.Uuid
+  userId        String    @db.Uuid
   activityType  String
   currentStreak Int       @default(0)
   longestStreak Int       @default(0)
@@ -30,23 +30,23 @@ model Streak {
 }
 
 model Friendships {
-  id           String @id @default(auto()) @map("_id") @db.ObjectId
-  userId       String @db.ObjectId
-  friendId     String @db.ObjectId
-  user         User   @relation("UserFriendships", fields: [userId], references: [id])
-  friend       User   @relation("InverseUserFriendships", fields: [friendId], references: [id])
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
+  id           String    @id @default(uuid()) @db.Uuid
+  userId       String    @db.Uuid
+  friendId     String    @db.Uuid
+  user         User      @relation("UserFriendships", fields: [userId], references: [id])
+  friend       User      @relation("InverseUserFriendships", fields: [friendId], references: [id])
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
 
   @@index([userId])
   @@index([friendId])
 }
 
 model Blog {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  id        String   @id @default(uuid()) @db.Uuid
   title     String
   content   String
-  authorId  String   @db.ObjectId
+  authorId  String   @db.Uuid
   likes     Int      @default(0)
   createdAt DateTime @default(now())
   author    User     @relation(fields: [authorId], references: [id])
