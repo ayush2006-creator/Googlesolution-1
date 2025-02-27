@@ -106,4 +106,50 @@ router.get('/pendingRequests', ensureAuthenticated, async (req, res) => {
     }
   })
 
+  router.get('/therapists', ensureAuthenticated, async (req, res) => {
+    try {
+      const userId = req.user.id;
+  
+      // Find all friendships where the user is either the sender or receiver
+      const friendships = await prisma.friendships.findMany({
+        where: {
+          OR: [
+            { userId: userId, status: 'ACCEPTED' },
+            { friendId: userId, status: 'ACCEPTED' },
+          ],
+        },
+        include: {
+          user: {
+            select: {
+              id: true,
+              email: true,
+              // Add other user fields you want to return
+            },
+          },
+          friend: {
+            select: {
+              id: true,
+              email: true,
+              // Add other user fields you want to return
+            },
+          },
+        },
+      });
+  
+      // Extract friend information
+      const friends = friendships.map((friendship) => {
+        if (friendship.userId === userId) {
+          return friendship.friend; // Return the friend's user object
+        } else {
+          return friendship.user; // Return the user's user object
+        }
+      });
+  
+      res.status(200).json(friends);
+    } catch (error) {
+      console.error('Get friends error:', error);
+      res.status(500).json({ message: 'Internal server error.' });
+    }
+  });
+
 module.exports = router;

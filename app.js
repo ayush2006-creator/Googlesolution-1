@@ -8,6 +8,8 @@ require('./passport')(passport);
 
 const authRoutes= require('./routes/auth');
 const friendRoutes=require('./routes/friend')
+const StreakRoutes=require('./routes/streaks')
+const leaderboardRoutes=require('./routes/leaderboard')
 app.use(session({
     secret: "secret",
     resave: false ,
@@ -23,6 +25,8 @@ app.use(session({
 
 app.use('/api',authRoutes);
 app.use('/api/friends',friendRoutes)
+app.use('/api/streaks',StreakRoutes)
+app.use('/api/leaderboard',leaderboardRoutes)
 
   app.listen(3000, () => {
     console.log(`Server is running on port 3000`);
