@@ -1,0 +1,59 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                String       @id @default(uuid()) @db.Uuid
+  email             String       @unique
+  password          String
+  isTherapistFriend Boolean      @default(false)
+  createdAt         DateTime     @default(now())
+  streak            Streak?     @relation("UserStreaks")
+  friendships       Friendships[] @relation("UserFriendships")
+  inverseFriendships Friendships[] @relation("InverseUserFriendships")
+  blogs             Blog[]
+}
+
+model Streak {
+  id            String    @id @default(uuid()) @db.Uuid
+  userId        String    @db.Uuid @unique
+  currentStreak Int       @default(0)
+  longestStreak Int       @default(0)
+  lastCheckin   DateTime
+  user          User      @relation("UserStreaks", fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Friendships {
+  id           String           @id @default(uuid()) @db.Uuid
+  userId       String           @db.Uuid
+  friendId     String           @db.Uuid
+  user         User             @relation("UserFriendships", fields: [userId], references: [id], onDelete: Cascade)
+  friend       User             @relation("InverseUserFriendships", fields: [friendId], references: [id], onDelete: Cascade)
+  createdAt    DateTime         @default(now())
+  updatedAt    DateTime         @updatedAt
+  status       FriendshipStatus @default(PENDING)
+
+  @@index([userId])
+  @@index([friendId])
+}
+
+model Blog {
+  id        String   @id @default(uuid()) @db.Uuid
+  title     String
+  content   String
+  authorId  String   @db.Uuid
+  likes     Int      @default(0)
+  createdAt DateTime @default(now())
+  author    User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
+}
+
+enum FriendshipStatus {
+  PENDING
+  ACCEPTED
+  REJECTED
+}
