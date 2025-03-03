@@ -31,6 +31,11 @@ app.use('/api/streaks',StreakRoutes)
 app.use('/api/leaderboard',leaderboardRoutes)
 app.use('/api/blogs',blogRoutes)
 
+app.get('/api', (req, res) => {
+  res.send('Welcome to the API!');
+    res.json({ message: 'Welcome to the API!' });
+  });
+
   app.listen(3000, () => {
     console.log(`Server is running on port 3000`);
   });
