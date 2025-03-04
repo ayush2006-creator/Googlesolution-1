@@ -4,6 +4,7 @@ const express=require('express');
 const app=express();
 const passport = require('passport')
 const session = require('express-session')
+app.use(express.json());
 require('./passport')(passport);
 
 const authRoutes= require('./routes/auth');
