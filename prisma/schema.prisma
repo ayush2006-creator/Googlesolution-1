@@ -8,45 +8,56 @@ datasource db {
 }
 
 model User {
-  id                String       @id @default(uuid()) @db.Uuid
-  email             String       @unique
-  password          String
-  isTherapistFriend Boolean      @default(false)
-  createdAt         DateTime     @default(now())
-  streak            Streak?     @relation("UserStreaks")
-  friendships       Friendships[] @relation("UserFriendships")
-  inverseFriendships Friendships[] @relation("InverseUserFriendships")
-  blogs             Blog[]
-  therapist         Therapist?
+  id                 String             @id @default(uuid()) @db.Uuid
+  email              String             @unique
+  password           String
+  isTherapistFriend  Boolean            @default(false)
+  createdAt          DateTime           @default(now())
+  streak             Streak?            @relation("UserStreaks")
+  friendships        Friendships[]      @relation("UserFriendships")
+  inverseFriendships Friendships[]      @relation("InverseUserFriendships")
+  blogs              Blog[]
+  therapist          Therapist?
+  TherapistRequest   TherapistRequest[]
 }
 
-model Therapist{
-  id                String       @id @default(uuid()) @db.Uuid
-  email             String       @unique
-  password          String
-  createdAt         DateTime     @default(now())
-  userId            String       @db.Uuid @unique
-  user              User         @relation(fields: [userId], references: [id])  
+model Therapist {
+  id               String             @id @default(uuid()) @db.Uuid
+  email            String             @unique
+  password         String
+  createdAt        DateTime           @default(now())
+  userId           String?            @unique @db.Uuid
+  user             User?              @relation(fields: [userId], references: [id])
+  TherapistRequest TherapistRequest[]
+}
+
+model TherapistRequest {
+  id          String        @id @default(uuid()) @db.Uuid
+  therapistId String        @db.Uuid
+  userId      String        @db.Uuid
+  status      RequestStatus @default(PENDING)
+  therapist   Therapist     @relation(fields: [therapistId], references: [id])
+  user        User          @relation(fields: [userId], references: [id])
 }
 
 model Streak {
-  id            String    @id @default(uuid()) @db.Uuid
-  userId        String    @db.Uuid @unique
-  currentStreak Int       @default(0)
-  longestStreak Int       @default(0)
+  id            String   @id @default(uuid()) @db.Uuid
+  userId        String   @unique @db.Uuid
+  currentStreak Int      @default(0)
+  longestStreak Int      @default(0)
   lastCheckin   DateTime
-  user          User      @relation("UserStreaks", fields: [userId], references: [id], onDelete: Cascade)
+  user          User     @relation("UserStreaks", fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Friendships {
-  id           String           @id @default(uuid()) @db.Uuid
-  userId       String           @db.Uuid
-  friendId     String           @db.Uuid
-  user         User             @relation("UserFriendships", fields: [userId], references: [id], onDelete: Cascade)
-  friend       User             @relation("InverseUserFriendships", fields: [friendId], references: [id], onDelete: Cascade)
-  createdAt    DateTime         @default(now())
-  updatedAt    DateTime         @updatedAt
-  status       FriendshipStatus @default(PENDING)
+  id        String        @id @default(uuid()) @db.Uuid
+  userId    String        @db.Uuid
+  friendId  String        @db.Uuid
+  user      User          @relation("UserFriendships", fields: [userId], references: [id], onDelete: Cascade)
+  friend    User          @relation("InverseUserFriendships", fields: [friendId], references: [id], onDelete: Cascade)
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+  status    RequestStatus @default(PENDING)
 
   @@index([userId])
   @@index([friendId])
@@ -62,7 +73,7 @@ model Blog {
   author    User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
 }
 
-enum FriendshipStatus {
+enum RequestStatus {
   PENDING
   ACCEPTED
   REJECTED
