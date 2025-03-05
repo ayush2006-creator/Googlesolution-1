@@ -48,7 +48,7 @@ module.exports = (passport) => {
       'therapistLocal',
       new LocalStrategy({ usernameField: 'email' }, async (email, password, done) => {
         try {
-          const therapist = await prisma.therapist.findUnique({ where: { email: email } });
+          const therapist = await Prisma.therapist.findUnique({ where: { email: email } });
   
           if (!therapist) {
             return done(null, false, { message: 'Incorrect email or password.' });
@@ -81,10 +81,10 @@ module.exports = (passport) => {
     passport.deserializeUser(async (user, done) => {
       try {
         if (user.type === 'therapist') {
-          const therapist = await prisma.therapist.findUnique({ where: { id: user.id } });
+          const therapist = await Prisma.therapist.findUnique({ where: { id: user.id } });
           done(null, therapist);
         } else {
-          const userFound = await prisma.user.findUnique({ where: { id: user.id } });
+          const userFound = await Prisma.user.findUnique({ where: { id: user.id } });
           done(null, userFound);
         }
       } catch (err) {
