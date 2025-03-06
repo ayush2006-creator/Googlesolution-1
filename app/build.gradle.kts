@@ -39,16 +39,23 @@ android {
         compose = true
     }
 }
-
+val ktor_version: String by project
 dependencies {
     implementation("androidx.constraintlayout:constraintlayout-compose:1.0.1")
     implementation ("androidx.compose.material3:material3:1.3.1")
     implementation("androidx.compose.material:material-icons-extended:1.6.1")
+    implementation("io.ktor:ktor-client-core:2.3.5")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
 
-    implementation ("com.squareup.retrofit2:retrofit:2.9.0")
-    implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
-    implementation ("com.squareup.okhttp3:logging-interceptor:4.10.0")
+    // SLF4J Simple Binding (for logging)
+    implementation("org.slf4j:slf4j-simple:2.0.7")
 
+    // Ktor OkHttp engine (for Android)
+    implementation("io.ktor:ktor-client-okhttp:2.3.5")
+    // Ktor Content Negotiation (for JSON serialization)
+    implementation("io.ktor:ktor-client-content-negotiation:2.3.5")
+    // Ktor Gson serializer
+    implementation("io.ktor:ktor-serialization-gson:2.3.5")
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)

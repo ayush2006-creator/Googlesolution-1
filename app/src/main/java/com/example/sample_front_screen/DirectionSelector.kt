@@ -43,13 +43,13 @@ import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
+
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
 import androidx.constraintlayout.compose.ConstraintLayout
 
-@Preview
+
 @Composable
 fun DirectionSelector(){
     Image(
@@ -109,14 +109,14 @@ fun DirectionSelector(){
         val vector2 = ImageVector.vectorResource(id = R.drawable.signboardd)
         Image(imageVector = vector2, contentDescription = "Vector",
             modifier = Modifier.constrainAs(board){
-                bottom.linkTo(button.top, margin = (-15.dp))
+                bottom.linkTo(button.top, margin = ((-15).dp))
                 centerHorizontallyTo(parent)
             }.scale(1.1f).zIndex(0f))
 
 
         MultiCorrectQuestionInterface(options = listOf("DRUGS","SMOKING","ALCOHOL","VAPE"), modifier = Modifier.constrainAs(question){
             top.linkTo(board.top)
-            start.linkTo(parent.start, margin = (-37.dp))
+            start.linkTo(parent.start, margin = ((-37).dp))
         }.scale(0.6f))
 
 

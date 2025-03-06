@@ -40,7 +40,6 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.sample_front_screen.ui.theme.DarkYellow
@@ -48,7 +47,7 @@ import com.example.sample_front_screen.ui.theme.Yellow
 
 
 @Composable
-fun SignUp(viewModel: AuthViewModel) {
+fun SignUp() {
     var name by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
@@ -158,7 +157,7 @@ fun SignUp(viewModel: AuthViewModel) {
                 )
             )
             Button(
-                onClick = { viewModel.signup(name,email,password)},
+                onClick = { },
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(60.dp)

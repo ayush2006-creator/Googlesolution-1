@@ -61,5 +61,5 @@ data class Chekins(
 data class CheckinResponse(
     val message: String,
     val currentStreak: Int? = null,
-    val longestStreak: Int? = null
+    val Streak: Int? = null
 )

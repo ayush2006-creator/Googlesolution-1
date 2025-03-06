@@ -1,33 +1,46 @@
 package com.example.sample_front_screen
 
+import kotlinx.coroutines.runBlocking
 
 
-fun main()  {
+fun main() = runBlocking {
+    val authApi = AuthApiImpl(KtorClient.client)
+    val streakApi = StreakApiServiceImpl(KtorClient.client)
+    val leaderboardApi = LeaderboardApiImpl(KtorClient.client)
 
-    val credentials = Login("jkjdh@gmail.com","jnasjkd")
+    // Test Signup
 
-    // Signup
 
-    // Login
-    val signup =Signup("JSK1","jkjd1h@gmail.com","jnasjkd")
-    val signupResponse=RetrofitClient.authApi.login(credentials).execute()
-    if (signupResponse.isSuccessful) {
-        println("Login successful: ${signupResponse.headers()}")
-    } else {
-        println("Login failed: ${signupResponse.message()}")
-
+    // Test Login
+    val loginData = Login("john@example.com", "password123")
+    try {
+        val loginResponse = authApi.login(loginData)
+        println("Login Response: $loginResponse")
+    } catch (e: Exception) {
+        println("Login Failed: ${e.message}")
     }
 
-
-
-
-    val leaderboard = RetrofitClient.leaderboardApi.globalleaderboard().execute()
-    if (leaderboard.isSuccessful) {
-        println(leaderboard.body())
-    } else {
-        println(" failed: ${leaderboard.code()}")
-
+    // Test Streak Checkin
+    try {
+        val streakResponse = streakApi.streak()
+        println("Streak Checkin Response: $streakResponse")
+    } catch (e: Exception) {
+        println("Streak Checkin Failed: ${e.message}")
     }
 
+    // Test Get Streak Data
+    try {
+        val streakDataResponse = streakApi.getStreakData()
+        println("Streak Data Response: $streakDataResponse")
+    } catch (e: Exception) {
+        println("Failed to fetch streak data: ${e.message}")
+    }
 
+    // Test Global Leaderboard
+    try {
+        val leaderboard = leaderboardApi.globalLeaderboard()
+        println("Global Leaderboard: $leaderboard")
+    } catch (e: Exception) {
+        println("Failed to fetch leaderboard: ${e.message}")
+    }
 }

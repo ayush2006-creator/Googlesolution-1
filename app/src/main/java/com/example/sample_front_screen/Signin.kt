@@ -62,7 +62,7 @@ import com.example.sample_front_screen.ui.theme.Yellow
 
 
 @Composable
-fun SignIn(viewModel: AuthViewModel) {
+fun SignIn() {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var passwordVisible by remember { mutableStateOf(false) }
