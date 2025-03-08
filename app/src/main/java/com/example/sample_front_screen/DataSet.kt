@@ -23,7 +23,7 @@ data class Signup(
 
 )
 data class SignupResponse(val message: String)
-data class LoginResponse(val token: String)
+data class LoginResponse(val message: String)
 data class  Login(
     var email: String,
     var password: String,

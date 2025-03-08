@@ -9,7 +9,8 @@ sealed class Screens (val route :String){
     object screen6:Screens("screen6")
     object screen7:Screens("screen7")
     object screen8:Screens("screen8")
-
+    object signin:Screens(route = "signin")
+    object signup:Screens(route = "signup")
 
 
 

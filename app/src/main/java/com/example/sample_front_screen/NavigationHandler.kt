@@ -10,6 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.lifecycle.ViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -45,6 +46,7 @@ fun ScreenImage(imageResId: Int, navController: NavController, gap: Long, nextSc
 @Composable
 fun Navigation() {
     val navController = rememberNavController()
+    
 
     NavHost(navController = navController, startDestination = Screens.screen1.route) {
         composable(route = Screens.screen1.route) {
@@ -69,7 +71,16 @@ fun Navigation() {
             ScreenImage(R.drawable.screen7, navController, 1500L, Screens.screen8.route)
         }
         composable(route = Screens.screen8.route) {
-            ScreenImage(R.drawable.screen8, navController, 1500L, null) // No next screen
+            ScreenImage(R.drawable.screen8, navController, 1500L, Screens.signin.route) // No next screen
+        }
+        composable(route=Screens.signin.route){
+            SignIn(AuthViewModel(
+                authApi =  AuthApiImpl(KtorClient.client)
+            ),navController)
+
+        }
+        composable(route=Screens.signup.route){
+            SignUp(navController, AuthViewModel(authApi =  AuthApiImpl(KtorClient.client)))
         }
     }
 }

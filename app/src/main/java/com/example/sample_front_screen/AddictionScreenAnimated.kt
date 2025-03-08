@@ -87,7 +87,7 @@ fun alternateWordLayout(words: List<String>, screenWidth: Float,screenHeight: Fl
 
                     // Create multiple animated values for more complex motion
                     val infiniteTransition = rememberInfiniteTransition()
-                    val interactionSource = remember { MutableInteractionSource() }
+                    remember { MutableInteractionSource() }
 
                     // First random motion component
                     val xMotion1 by infiniteTransition.animateFloat(
@@ -216,7 +216,7 @@ fun alternateWordLayout(words: List<String>, screenWidth: Float,screenHeight: Fl
 
                     // Create multiple animated values for more complex motion
                     val infiniteTransition = rememberInfiniteTransition()
-                    val interactionSource = remember { MutableInteractionSource() }
+                    remember { MutableInteractionSource() }
 
                     // First random motion component
                     val xMotion1 by infiniteTransition.animateFloat(

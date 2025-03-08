@@ -1,6 +1,7 @@
 @file:OptIn(ExperimentalMaterial3Api::class)
 
 package com.example.sample_front_screen
+import android.util.Log
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
@@ -36,6 +37,8 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -57,15 +60,43 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.navigation.NavController
+import com.example.sample_front_screen.AuthState.Success
+
 import com.example.sample_front_screen.ui.theme.DarkYellow
 import com.example.sample_front_screen.ui.theme.Yellow
 
 
 @Composable
-fun SignIn() {
+fun SignIn(viewModel: AuthViewModel, navController: NavController) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var passwordVisible by remember { mutableStateOf(false) }
+    var errorMessage by remember { mutableStateOf<String?>(null) } // To show error messages
+
+    val loginState by viewModel.loginState.collectAsState()
+
+    // Handle navigation based on login state
+    LaunchedEffect(loginState) {
+        Log.d("LaunchedEffect", "Current loginState: $loginState")
+        when (loginState) {
+            is AuthState.Success -> {
+                Log.d("LaunchedEffect", "Navigating to screen4")
+                navController.navigate(Screens.screen4.route) {
+                    popUpTo(Screens.signin.route) { inclusive = true }
+                }
+                viewModel.resetLoginState()
+            }
+            is AuthState.Failure -> {
+                Log.d("LaunchedEffect", "Login failed: ${(loginState as AuthState.Failure).message}")
+                errorMessage = (loginState as AuthState.Failure).message ?: "Login failed. Please try again."
+            }
+            else -> {
+                Log.d("LaunchedEffect", "Other state: $loginState")
+            }
+        }
+    }
+
     Box(modifier = Modifier.fillMaxSize()) {
         Image(
             painter = painterResource(R.drawable.letsdoit),
@@ -73,55 +104,55 @@ fun SignIn() {
             contentScale = ContentScale.Crop,
             modifier = Modifier.fillMaxSize()
         )
-
-
-
     }
-    Box(modifier = Modifier.fillMaxSize().padding(top=50.dp)){
+
+    Box(modifier = Modifier.fillMaxSize().padding(top = 50.dp)) {
         Column(
             modifier = Modifier.padding(30.dp),
-            
             horizontalAlignment = Alignment.CenterHorizontally
-        ){
+        ) {
             AssisstantTalkShort(text = "So happy to see you again")
-            HeadingText("Welcome Back to\n "+"        Recovery")
+            HeadingText("Welcome Back to\n " + "        Recovery")
 
             SubHeadingText("It’s time to pick up where you left off.\n" +
                     "  The road has been waiting for you.")
+
+            // Show error message if login fails
+            if (errorMessage != null) {
+                Text(
+                    text = errorMessage!!,
+                    color = Color.Red,
+                    modifier = Modifier.padding(bottom = 8.dp)
+                )
+            }
+
             TextField(
                 value = email,
-                onValueChange = { email = it }, // Required to update state
+                onValueChange = { email = it },
                 singleLine = true,
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
                 shape = RoundedCornerShape(10.dp),
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(top =18.dp,start = 16.dp,end=16.dp)
+                    .padding(top = 18.dp, start = 16.dp, end = 16.dp)
                     .border(2.dp, Color.Black, RoundedCornerShape(10.dp)),
                 label = { Text("Enter Email") },
                 colors = TextFieldDefaults.colors(
                     focusedTextColor = Color.Black,
                     unfocusedTextColor = Color.DarkGray,
-                    focusedContainerColor = Yellow,  // Background when focused
-                    unfocusedContainerColor = Color(0x66FFEB3B), // Background when not focused
-
-
-                    focusedLeadingIconColor = Color.Black, // Icon color when focused
-                    unfocusedLeadingIconColor = Color.Gray
+                    focusedContainerColor = Yellow,
+                    unfocusedContainerColor = Color(0x66FFEB3B),
                 )
-
-
-                )
+            )
 
             TextField(
                 value = password,
                 onValueChange = { password = it },
-
                 label = { Text("Enter Password") },
-                shape = RoundedCornerShape(10.dp),// ✅ Label behaves like the Email field
+                shape = RoundedCornerShape(10.dp),
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(top =14.dp, start = 16.dp,end=16.dp)
+                    .padding(top = 14.dp, start = 16.dp, end = 16.dp)
                     .border(2.dp, Color.Black, RoundedCornerShape(10.dp)),
                 singleLine = true,
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
@@ -133,70 +164,61 @@ fun SignIn() {
                     }
                 },
                 colors = TextFieldDefaults.colors(
-
                     focusedTextColor = Color.Black,
                     unfocusedTextColor = Color.DarkGray,
-                    focusedContainerColor = Yellow,  // Background when focused
-                    unfocusedContainerColor = Color(0x66FFEB3B)
-                    , // Background when not focused
-                    // Cursor color
-                    // Bottom line when not focused
-                    focusedTrailingIconColor = Color.Black, // Trailing icon color when focused
+                    focusedContainerColor = Yellow,
+                    unfocusedContainerColor = Color(0x66FFEB3B),
+                    focusedTrailingIconColor = Color.Black,
                     unfocusedTrailingIconColor = Color.Gray
                 )
             )
+
             Button(
-                onClick = {},
+                onClick = { viewModel.login(email, password)
+                    errorMessage = null},
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(60.dp)
-                    .padding(top = 18.dp,start = 16.dp,end=16.dp)
-                    ,
+                    .padding(top = 18.dp, start = 16.dp, end = 16.dp),
                 colors = ButtonColors(
-                    contentColor = Color.Black, containerColor = Yellow,
+                    contentColor = Color.Black,
+                    containerColor = Yellow,
                     disabledContainerColor = Yellow,
                     disabledContentColor = Color.Black
                 ),
                 shape = RoundedCornerShape(12.dp),
-                elevation = ButtonDefaults.buttonElevation(defaultElevation = 8.dp,   // Normal elevation
-                pressedElevation = 2.dp,   // Elevation when pressed
-
-                focusedElevation = 10.dp   // When focused
-
-            ) ){
+                elevation = ButtonDefaults.buttonElevation(
+                    defaultElevation = 8.dp,
+                    pressedElevation = 2.dp,
+                    focusedElevation = 10.dp
+                )
+            ) {
                 Text(
                     text = "SIGN IN",
-                    fontSize = 18.sp,  // ✅ Correct font size
-                    fontWeight = FontWeight.Bold, // Optional for emphasis
-                    textAlign = TextAlign.Center, // Ensures text is centered
-                    fontFamily = FontFamily(Font(R.font.lato)),
-
-                )
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.Bold,
+                    textAlign = TextAlign.Center,
+                    fontFamily = FontFamily(Font(R.font.lato)))
             }
-            Row(modifier = Modifier.padding(top =10.dp)) {
 
-
+            Row(modifier = Modifier.padding(top = 10.dp)) {
                 Text("Don't have an account?",
                     fontSize = 15.sp,
                     fontWeight = FontWeight.Normal,
                     lineHeight = 23.sp,
                     fontFamily = FontFamily(Font(R.font.lato)),
-                    color = DarkYellow )
+                    color = DarkYellow)
                 Text("  SIGN UP",
                     fontSize = 15.sp,
                     fontWeight = FontWeight.Bold,
                     lineHeight = 23.sp,
                     fontFamily = FontFamily(Font(R.font.lato)),
                     color = Yellow,
-                    modifier=Modifier.clickable(onClick = {})
+                    modifier = Modifier.clickable(onClick = {navController.navigate(Screens.signup.route)})
                 )
             }
-
-
-
-
-
-        }}
+        }
+    }
 }
 
 
@@ -358,20 +380,10 @@ fun AssisstantTalkShort(text:String,modifier: Modifier=Modifier){
             contentDescription = null,
 
             modifier = Modifier.size(200.dp).constrainAs(image) {
-                top.linkTo(message.bottom, margin = -40.dp )
+                top.linkTo(message.bottom, margin = (-40).dp)
                 centerHorizontallyTo(parent)
 
             }
 
         )
     }}}
-
-
-
-
-
-
-
-
-
-

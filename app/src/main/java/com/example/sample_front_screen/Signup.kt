@@ -1,5 +1,6 @@
 package com.example.sample_front_screen
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -24,6 +25,8 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -42,16 +45,17 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.sample_front_screen.ui.theme.DarkYellow
 import com.example.sample_front_screen.ui.theme.Yellow
 
 
 @Composable
-fun SignUp() {
+fun SignUp(navController: NavController,viewModel: AuthViewModel) {
     var name by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
-
+    var errorMessage by remember { mutableStateOf<String?>(null) }
     var passwordVisible by remember { mutableStateOf(false) }
     Box(modifier = Modifier.fillMaxSize()) {
         Image(
@@ -64,6 +68,28 @@ fun SignUp() {
 
 
     }
+    val SignupState by viewModel.signupState.collectAsState()
+    LaunchedEffect(SignupState) {
+
+        Log.d("LaunchedEffect", "Current SignupState: $SignupState")
+
+        when (SignupState) {
+            is AuthState.Success -> {
+                Log.d("LaunchedEffect", "Navigating to screen4")
+                navController.navigate(Screens.screen4.route) {
+                    popUpTo(Screens.signin.route) { inclusive = true }
+                }
+                viewModel.resetLoginState()
+            }
+            is AuthState.Failure -> {
+                Log.d("LaunchedEffect", "Signup failed: ${(SignupState as AuthState.Failure).message}")
+                errorMessage = (SignupState as AuthState.Failure).message ?: "Login failed. Please try again."
+            }
+            else -> {
+                Log.d("LaunchedEffect", "Other state: $SignupState")
+            }
+        }
+    }
     Box(modifier = Modifier.fillMaxSize().padding(top=40.dp)){
         Column(
             modifier = Modifier.padding(30.dp),
@@ -75,6 +101,13 @@ fun SignUp() {
 
             SubHeadingText("It’s time to pick up where you left off.\n" +
                     "  The road has been waiting for you.")
+            if (errorMessage != null) {
+                Text(
+                    text = errorMessage!!,
+                    color = Color.Red,
+                    modifier = Modifier.padding(bottom = 8.dp)
+                )
+            }
             TextField(
                 value = name,
                 onValueChange = { name = it }, // Required to update state
@@ -157,7 +190,8 @@ fun SignUp() {
                 )
             )
             Button(
-                onClick = { },
+                onClick = {viewModel.signup(email,password,name)
+                    errorMessage = null},
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(60.dp)
