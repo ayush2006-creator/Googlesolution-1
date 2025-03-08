@@ -92,6 +92,7 @@ router.get('/pendingRequests', ensureAuthenticated, async (req, res) => {
             select: {
               id: true,
               email: true,
+              username: true,
               //Add any other user fields you want to return
             }
           }
@@ -123,6 +124,7 @@ router.get('/pendingRequests', ensureAuthenticated, async (req, res) => {
             select: {
               id: true,
               email: true,
+              username: true,
               // Add other user fields you want to return
             },
           },
@@ -130,6 +132,7 @@ router.get('/pendingRequests', ensureAuthenticated, async (req, res) => {
             select: {
               id: true,
               email: true,
+              username: true,
               // Add other user fields you want to return
             },
           },
