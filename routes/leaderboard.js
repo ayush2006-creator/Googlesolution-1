@@ -16,6 +16,7 @@ router.get('/global/current',ensureAuthenticated, async (req, res) => {
           select: {
             id: true,
             email: true,
+            username: true,
             // Add other user fields you want to include
           },
         },
@@ -27,6 +28,7 @@ router.get('/global/current',ensureAuthenticated, async (req, res) => {
       userId: streak.user.id,
       email: streak.user.email,
       currentStreak: streak.currentStreak,
+      username: streak.user.username,
       // Add other relevant data
     }));
 
@@ -49,6 +51,7 @@ router.get('/global/longest',ensureAuthenticated, async (req, res) => {
             select: {
               id: true,
               email: true,
+              username: true,
               // Add other user fields you want to include
             },
           },
@@ -61,6 +64,7 @@ router.get('/global/longest',ensureAuthenticated, async (req, res) => {
         userId: streak.user.id,
         email: streak.user.email,
         longestStreak: streak.longestStreak,
+        username: streak.user.username,
         // Add other relevant data
       }));
   
@@ -105,6 +109,7 @@ router.get('/global/longest',ensureAuthenticated, async (req, res) => {
             select: {
               id: true,
               email: true,
+              username: true,
               // Add other user fields
             },
           },
@@ -116,6 +121,7 @@ router.get('/global/longest',ensureAuthenticated, async (req, res) => {
         userId: streak.user.id,
         email: streak.user.email,
         currentStreak: streak.currentStreak,
+        username :streak.user.username,
         // Add other relevant data
       }));
   
@@ -160,6 +166,7 @@ router.get('/global/longest',ensureAuthenticated, async (req, res) => {
             select: {
               id: true,
               email: true,
+              username: true,
               // Add other user fields
             },
           },
@@ -171,6 +178,7 @@ router.get('/global/longest',ensureAuthenticated, async (req, res) => {
         userId: streak.user.id,
         email: streak.user.email,
         longestStreak: streak.longestStreak,
+        username :streak.user.username,
         // Add other relevant data
       }));
   

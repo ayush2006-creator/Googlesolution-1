@@ -36,6 +36,7 @@ router.get('/all',ensureAuthenticated, async (req, res) => {
             select: {
               id: true,
               email: true,
+              username: true,
               // Add other user fields you want to return
             },
           },
@@ -51,5 +52,43 @@ router.get('/all',ensureAuthenticated, async (req, res) => {
       res.status(500).json({ message: 'Internal server error.' });
     }
   });
+
+  router.get('/search', async (req, res) => {
+    try {
+        const { query } = req.query;
+
+        let whereClause = {}; // Default: no filtering
+
+        if (query) {
+            whereClause = {
+                OR: [
+                    { title: { contains: query, mode: 'insensitive' } },
+                    { content: { contains: query, mode: 'insensitive' } },
+                ],
+            };
+        }
+
+        const blogs = await prisma.blog.findMany({
+            where: whereClause,
+            include: {
+                author: {
+                    select: {
+                        id: true,
+                        username: true,
+                        email: true,
+                    },
+                },
+            },
+            orderBy: {
+              createdAt: 'desc', // Order by creation date (newest first)
+            },
+        });
+
+        res.json(blogs);
+    } catch (error) {
+        console.error('Blog search error:', error);
+        res.status(500).json({ message: 'Internal server error.' });
+    }
+});
 
 module.exports = router;
