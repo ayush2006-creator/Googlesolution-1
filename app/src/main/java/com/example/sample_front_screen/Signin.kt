@@ -21,7 +21,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
@@ -56,12 +55,12 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.navigation.NavController
-import com.example.sample_front_screen.AuthState.Success
+import com.example.sample_front_screen.fontfunctions.HeadingText
+import com.example.sample_front_screen.fontfunctions.SubHeadingText
 
 import com.example.sample_front_screen.ui.theme.DarkYellow
 import com.example.sample_front_screen.ui.theme.Yellow
@@ -223,33 +222,7 @@ fun SignIn(viewModel: AuthViewModel, navController: NavController) {
 
 
 
-@Composable
-fun HeadingText(text: String, modifier: Modifier = Modifier) {
-    Text(
-        text = text,
-        fontSize = 35.51.sp,
-        fontWeight = FontWeight.Bold,
-        lineHeight = 37.sp,
-        fontFamily = FontFamily(Font(R.font.poppinsld)),
-        modifier = modifier,
-        color = Yellow
 
-    )
-}
-@Composable
-fun SubHeadingText(text: String, modifier: Modifier = Modifier) {
-    Text(
-        text = text,
-        fontSize = 20.sp,
-        fontWeight = FontWeight.ExtraBold,
-        lineHeight = 23.sp,
-        fontFamily = FontFamily(Font(R.font.lato)),
-        modifier = modifier,
-        color = DarkYellow
-
-
-    )
-}
 
 @Composable
 fun AssisstantTalkSide(text: String,modifier: Modifier){

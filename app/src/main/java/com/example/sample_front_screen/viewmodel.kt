@@ -1,7 +1,7 @@
 package com.example.sample_front_screen
 
 import android.util.Log
-import androidx.compose.runtime.MutableState
+
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import io.ktor.client.plugins.ClientRequestException
@@ -31,7 +31,7 @@ class AuthViewModel(private val authApi: AuthApi) : ViewModel() {
                 _signupState.value = AuthState.Success(response)
                 if (response.message == null ||
                     response.message == "Success" ||
-                    response.message == "Login successful" ||
+                    response.message == "Signup successful" ||
                     response.message.contains("success") ||
                     response.message.contains("welcome")) {
                     // This indicates a successful login

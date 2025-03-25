@@ -46,6 +46,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.example.sample_front_screen.fontfunctions.HeadingText
+import com.example.sample_front_screen.fontfunctions.SubHeadingText
 import com.example.sample_front_screen.ui.theme.DarkYellow
 import com.example.sample_front_screen.ui.theme.Yellow
 
@@ -233,7 +235,7 @@ fun SignUp(navController: NavController,viewModel: AuthViewModel) {
                     lineHeight = 23.sp,
                     fontFamily = FontFamily(Font(R.font.lato)),
                     color = Yellow,
-                    modifier=Modifier.clickable(onClick = {})
+                    modifier=Modifier.clickable(onClick = {navController.navigate(Screens.signin.route)})
                 )
             }
 
