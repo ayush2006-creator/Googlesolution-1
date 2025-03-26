@@ -41,13 +41,14 @@ const friendRoutes = require('./routes/friend');
 const StreakRoutes = require('./routes/streaks');
 const leaderboardRoutes = require('./routes/leaderboard');
 const blogRoutes = require('./routes/blogs');
+const therapyRoutes = require('./routes/therapies');
 
 app.use('/api', authRoutes);
 app.use('/api/friends', friendRoutes);
 app.use('/api/streaks', StreakRoutes);
 app.use('/api/leaderboard', leaderboardRoutes);
 app.use('/api/blogs', blogRoutes);
-
+app.use('/api/therapies',therapyRoutes);
 app.get('/api', (req, res) => {
     res.json({ message: 'Welcome to the API!' }); // Use only res.json
 });
