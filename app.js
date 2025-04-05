@@ -52,7 +52,7 @@ app.use('/api/therapies',therapyRoutes);
 app.use('/api',require('./routes/uploadImage')); 
 app.use('/api/milestones', require('./routes/milestones')); // Ensure this is included
 
-app.get('/api', (req, res) => {
+app.get('/', (req, res) => {
     res.json({ message: 'Welcome to the API!' }); // Use only res.json
 });
 
