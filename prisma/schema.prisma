@@ -20,6 +20,18 @@ model User {
   blogs              Blog[]
   therapist          Therapist?
   TherapistRequest   TherapistRequest[]
+  image              String? 
+  milestones         Milestone[]             
+}
+
+model Milestone{
+  id        String   @id @default(uuid()) @db.Uuid
+  userId    String   @db.Uuid
+  title     String
+  
+  createdAt DateTime @default(now())
+ 
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Therapist {
