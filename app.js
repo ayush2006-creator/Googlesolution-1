@@ -42,6 +42,7 @@ const StreakRoutes = require('./routes/streaks');
 const leaderboardRoutes = require('./routes/leaderboard');
 const blogRoutes = require('./routes/blogs');
 const therapyRoutes = require('./routes/therapies');
+const blogReactionsRoutes = require('./routes/blogReactions'); // Ensure this is included
 
 app.use('/api', authRoutes);
 app.use('/api/friends', friendRoutes);
@@ -50,10 +51,11 @@ app.use('/api/leaderboard', leaderboardRoutes);
 app.use('/api/blogs', blogRoutes);
 app.use('/api/therapies',therapyRoutes);
 app.use('/api',require('./routes/uploadImage')); 
-app.use('/api/milestones', require('./routes/milestones')); // Ensure this is included
+app.use('/api/milestones', require('./routes/milestones'));
+app.use('/api/blogReactions', blogReactionsRoutes); 
 
 app.get('/', (req, res) => {
-    res.json({ message: 'Welcome to the API!' }); // Use only res.json
+    res.json({ message: 'Welcome to the API!' }); 
 });
 
 const port = process.env.PORT || 3000;

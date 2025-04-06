@@ -21,7 +21,9 @@ model User {
   therapist          Therapist?
   TherapistRequest   TherapistRequest[]
   image              String? 
-  milestones         Milestones[]             
+  milestones         Milestones[]  
+  bookmarks         Bookmarks[]
+  comments          Comments[]           
 }
 
 model Milestones{
@@ -84,7 +86,33 @@ model Blog {
   likes     Int      @default(0)
   createdAt DateTime @default(now())
   author    User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  comments  Comments[]
+  bookmarks Bookmarks[]
 }
+model Comments {
+  id        String   @id @default(uuid()) @db.Uuid
+  blogId    String   @db.Uuid
+  userId    String   @db.Uuid
+  content   String
+  createdAt DateTime @default(now())
+  blog      Blog     @relation(fields: [blogId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([blogId])
+  @@index([userId])
+}
+model Bookmarks {
+  userId    String   @db.Uuid
+  blogId    String   @db.Uuid
+  blog      Blog     @relation(fields: [blogId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@id([userId, blogId])
+  @@index([blogId])
+  @@index([userId])
+}
+
 
 enum RequestStatus {
   PENDING

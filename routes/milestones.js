@@ -10,7 +10,7 @@ router.post('/create',ensureAuthenticated, async (req, res) => {
         if(!title){
             return res.status(400).json({message:'Title is required'});
         }
-        const newMilestone = await prisma.milestone.create({
+        const newMilestone = await prisma.milestones.create({
             data:{
                 title:title,
                 userId:userId
@@ -29,7 +29,7 @@ router.post('/create',ensureAuthenticated, async (req, res) => {
 router.get('/all',ensureAuthenticated, async (req, res) => {
     try{
         const userId = req.user.id; // Assuming user ID is available in req.user
-        const milestones = await prisma.milestone.findMany({
+        const milestones = await prisma.milestones.findMany({
             where:{
                 userId:userId
             }

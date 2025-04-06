@@ -36,7 +36,7 @@ router.post('/signup', async (req, res) => {
         if (err) {
           return res.status(500).json({ message: 'Internal server error during login.' });
         }
-        return res.status(201).json({ message: 'User registered and logged in successfully!' });
+        return res.status(201).json({user:newUser, message: 'User registered and logged in successfully!' });
       });
     } catch (error) {
       console.error('Signup error:', error);
@@ -59,9 +59,39 @@ router.post('/login', (req, res, next) => {
       if (err) {
         return res.status(500).json({ message: 'Internal server error.' });
       }
-      return res.status(200).json({ message: 'Login successful!' });
+      return res.status(200).json({user:user, message: 'Login successful!' });
     });
   })(req, res, next);
 });
+
+router.get('/userInfo', ensureAuthenticated, async (req, res) => {
+  try {
+    if (req.user) {
+      const userDetails = await prisma.user.findUnique({
+        where: { id: req.user.id },
+        select: {
+          id: true,
+          email: true,
+          username: true,
+          createdAt: true,
+          
+        },
+
+      });
+      if (userDetails) {
+        return res.status(200).json(userDetails);
+      } else {
+        return res.status(404).json({ message: 'User not found.' });
+      }
+    } else {
+    
+      return res.status(401).json({ message: 'Not authenticated.' });
+    }
+  } catch (error) {
+    console.error('Error fetching current user:', error);
+    res.status(500).json({error, message: 'Internal server error.' });
+  }
+});
+
 
 module.exports = router;
