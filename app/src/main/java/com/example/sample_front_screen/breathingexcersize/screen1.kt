@@ -25,7 +25,11 @@ fun breathscreen1(navController: NavController){
         contentDescription = "Background",
         contentScale = ContentScale.Crop, // Ensures full coverage
         modifier = Modifier
+
             .fillMaxSize().scale(1.3f)
+
+            .fillMaxSize()
+
 
         // Ensures image fi
     )
@@ -39,7 +43,11 @@ fun breathscreen1(navController: NavController){
         )
     }
     LaunchedEffect(Unit) {
+
         delay(2000)
+
+        delay(20)
+
         navController.navigate(Screens.breathscreen2.route)
 
         }
