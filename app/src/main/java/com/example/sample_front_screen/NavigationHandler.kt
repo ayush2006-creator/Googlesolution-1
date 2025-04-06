@@ -70,12 +70,7 @@ fun Navigation() {
     val isLoggedIn by sessionManager.isLoggedIn.collectAsState()
 
     // Determine start destination based on login status
-    val startDestination = if (sessionManager.isUserLoggedIn()) {
-        Screens.screen4.route // User is logged in, go to main screen
-
-    } else {
-        Screens.screen2.route // User is not logged in, go to onboarding
-    }
+    val startDestination = Screens.screen2.route
 
 
     NavHost(navController = navController, startDestination = startDestination) {
@@ -89,7 +84,9 @@ fun Navigation() {
         }
 
         composable(route = Screens.screen7.route) {
-            ScreenImage(R.drawable.screen7, navController, 1500L, Screens.welcome.route)
+            val isUserLoggedIn = sessionManager.isUserLoggedIn()
+            val nextScreen = if (isUserLoggedIn) Screens.dashboard1.route else Screens.welcome.route
+            ScreenImage(R.drawable.screen7, navController, 1500L, nextScreen)
         }
         composable(route=Screens.welcome.route){
             pretaskscreen(

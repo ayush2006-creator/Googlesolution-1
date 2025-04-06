@@ -16,6 +16,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.snapshots.SnapshotStateList
@@ -26,7 +27,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 
 import androidx.compose.ui.unit.dp
@@ -354,13 +357,15 @@ fun PreviewWordGrid(context: Context, navController: NavController) {
     ) { paddingValues ->
         Box(
             modifier = Modifier
-                .padding(start = 5.dp)
+                .padding(paddingValues)
                 .fillMaxSize()
                 .background(Color.Black)
                 .clipToBounds()
         ) {
             Column(
-                modifier = Modifier.fillMaxSize(),
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(bottom = 80.dp), // Space for button
                 verticalArrangement = Arrangement.SpaceBetween
             ) {
                 // Top section
@@ -368,22 +373,15 @@ fun PreviewWordGrid(context: Context, navController: NavController) {
                     modifier = Modifier.weight(3f),
                     verticalArrangement = Arrangement.SpaceEvenly
                 ) {
-                    topChunks.forEachIndexed { index,chunk ->
-                        val colorset:Int = if (index%3==0){
-                            0
-                        } else if (index<2){
-                            2
-                        } else{
-                            1
-                        }
-                        alternateWordLayout(chunk, screenWidth,screenHeight,colorset,context)
+                    topChunks.forEachIndexed { index, chunk ->
+                        val colorset: Int = if (index % 3 == 0) 0 else if (index < 2) 2 else 1
+                        alternateWordLayout(chunk, screenWidth, screenHeight, colorset, context)
                     }
                 }
 
                 // Middle image section
                 Box(
                     modifier = Modifier
-
                         .weight(0.5f)
                         .fillMaxWidth(),
                     contentAlignment = Alignment.Center
@@ -393,31 +391,57 @@ fun PreviewWordGrid(context: Context, navController: NavController) {
                         contentDescription = "App Logo",
                         modifier = Modifier
                             .fillMaxWidth(0.92f)
-                            .aspectRatio(1f).clickable { navController.navigate(Screens.signin.route) }
-
+                            .aspectRatio(1f)
                     )
                 }
 
                 // Bottom section
-
                 Column(
                     modifier = Modifier.weight(3f),
                     verticalArrangement = Arrangement.SpaceEvenly
                 ) {
-                    bottomChunks.forEachIndexed { index,chunk ->
-                        val colorset:Int = if (index%3==0){
-                            0
-                        } else if (index<2){
-                            2
-                        } else{
-                            1
-                        }
-                       alternateWordLayout(chunk, screenWidth,screenHeight,colorset, context)
-
+                    bottomChunks.forEachIndexed { index, chunk ->
+                        val colorset: Int = if (index % 3 == 0) 0 else if (index < 2) 2 else 1
+                        alternateWordLayout(chunk, screenWidth, screenHeight, colorset, context)
                     }
                 }
             }
-        }
 
+            // Bottom Center Button
+            Box(
+                modifier = Modifier
+                    .align(Alignment.BottomCenter)
+                    .fillMaxWidth()
+                    .padding(bottom = 16.dp, start = 100.dp)
+            ) {
+                Button(
+                    onClick = { navController.navigate(Screens.dashboard1.route) },
+                    modifier = Modifier
+                        .fillMaxWidth(0.7f)
+                        .height(50.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = Yellow,
+                        contentColor = Color.Black,
+                        disabledContainerColor = Yellow,
+                        disabledContentColor = Color.Black
+                    ),
+                    shape = RoundedCornerShape(12.dp),
+                    elevation = ButtonDefaults.buttonElevation(
+                        defaultElevation = 8.dp,
+                        pressedElevation = 2.dp,
+                        focusedElevation = 10.dp
+                    )
+                ) {
+                    Text(
+                        text = "NEXT",
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.Bold,
+                        textAlign = TextAlign.Center,
+                        fontFamily = FontFamily(Font(R.font.lato))
+                    )
+                }
+            }
+        }
     }
+
 }

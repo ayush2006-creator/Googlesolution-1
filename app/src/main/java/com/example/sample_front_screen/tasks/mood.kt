@@ -176,6 +176,7 @@ fun MoodSelectorScreen(navController:NavController) {
                     .height(50.dp)
                     .width(300.dp),
                 onClick = {
+                    navController.navigate(Screens.task1.route)
                     // Handle selected options here
 
                 },
