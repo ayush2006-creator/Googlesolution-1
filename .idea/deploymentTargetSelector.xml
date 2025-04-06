@@ -5,16 +5,22 @@
       <SelectionState runConfigName="app">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="DirectionSelector">
+      <SelectionState runConfigName="AppNavigation">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="WeeklySpent">
+      <SelectionState runConfigName="MoodSelectorScreen">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="ReplaceImageOnClick">
+      <SelectionState runConfigName="introScreen">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
       <SelectionState runConfigName="MainActivity">
+        <option name="selectionMode" value="DROPDOWN" />
+      </SelectionState>
+      <SelectionState runConfigName="MyProgressScreen">
+        <option name="selectionMode" value="DROPDOWN" />
+      </SelectionState>
+      <SelectionState runConfigName="calender1">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
     </selectionStates>

@@ -6,7 +6,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.text.style.TextAlign
+
 import androidx.compose.ui.unit.sp
 import com.example.sample_front_screen.R
 import com.example.sample_front_screen.ui.theme.DarkYellow
@@ -34,7 +35,8 @@ fun SubHeadingText(text: String, modifier: Modifier = Modifier,fontsize: Double 
         lineHeight = 23.sp,
         fontFamily = FontFamily(Font(R.font.lato)),
         modifier = modifier,
-        color = DarkYellow
+        color = DarkYellow,
+        textAlign = TextAlign.Center,
 
 
     )

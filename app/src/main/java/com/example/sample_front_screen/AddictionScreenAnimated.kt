@@ -16,7 +16,6 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.snapshots.SnapshotStateList
@@ -32,6 +31,7 @@ import androidx.compose.ui.text.style.TextAlign
 
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.sample_front_screen.ui.theme.DarkYellow
 import com.example.sample_front_screen.ui.theme.Red
 import com.example.sample_front_screen.ui.theme.Yellow
@@ -325,7 +325,7 @@ fun alternateWordLayout(words: List<String>, screenWidth: Float,screenHeight: Fl
 
 
 @Composable
-fun PreviewWordGrid(context: Context) {
+fun PreviewWordGrid(context: Context, navController: NavController) {
     // Get screen dimensions
     val configuration = LocalConfiguration.current
     val screenWidth = configuration.screenWidthDp.toFloat()
@@ -393,7 +393,7 @@ fun PreviewWordGrid(context: Context) {
                         contentDescription = "App Logo",
                         modifier = Modifier
                             .fillMaxWidth(0.92f)
-                            .aspectRatio(1f)
+                            .aspectRatio(1f).clickable { navController.navigate(Screens.signin.route) }
 
                     )
                 }

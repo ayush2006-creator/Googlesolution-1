@@ -1,18 +1,25 @@
 package com.example.sample_front_screen
 
+import android.content.Context
+import androidx.test.core.app.ApplicationProvider
 import kotlinx.coroutines.runBlocking
 
 
 fun main() = runBlocking {
+    val context = ApplicationProvider.getApplicationContext<Context>()
+    KtorClient.initialize(context)
+
+    // THEN get the client instance
     val authApi = AuthApiImpl(KtorClient.client)
     val streakApi = StreakApiServiceImpl(KtorClient.client)
     val leaderboardApi = LeaderboardApiImpl(KtorClient.client)
+
 
     // Test Signup
 
 
     // Test Login
-    val loginData = Login("john@example.com", "password123")
+    val loginData = Login("testuser", "12345678")
     try {
         val loginResponse = authApi.login(loginData)
         println("Login Response: $loginResponse")

@@ -61,7 +61,7 @@ fun SignUp(navController: NavController,viewModel: AuthViewModel) {
     var passwordVisible by remember { mutableStateOf(false) }
     Box(modifier = Modifier.fillMaxSize()) {
         Image(
-            painter = painterResource(R.drawable.letsdoit),
+            painter = painterResource(R.drawable.mainbackground),
             contentDescription = "Background",
             contentScale = ContentScale.Crop,
             modifier = Modifier.fillMaxSize()
@@ -78,7 +78,7 @@ fun SignUp(navController: NavController,viewModel: AuthViewModel) {
         when (SignupState) {
             is AuthState.Success -> {
                 Log.d("LaunchedEffect", "Navigating to screen4")
-                navController.navigate(Screens.screen4.route) {
+                navController.navigate(Screens.enemychose.route) {
                     popUpTo(Screens.signin.route) { inclusive = true }
                 }
                 viewModel.resetLoginState()

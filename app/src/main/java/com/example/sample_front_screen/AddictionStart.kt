@@ -30,12 +30,13 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.navigation.NavController
 import com.example.sample_front_screen.ui.theme.Red
 import com.example.sample_front_screen.ui.theme.Yellow
 
 
 @Composable
-fun AddictedScreenStart(context: Context) {
+fun AddictedScreenStart(context: Context,navController: NavController) {
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         containerColor = Color.Black
@@ -79,7 +80,9 @@ fun AddictedScreenStart(context: Context) {
 
                             onClick = {
                                 isVisible.value = !isVisible.value ;
-                                playSound(context,R.raw.pop)
+                                playSound(context,R.raw.pop);
+                                navController.navigate(Screens.addiction.route)
+
 
 
                             }),

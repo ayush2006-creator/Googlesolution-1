@@ -81,7 +81,7 @@ fun SignIn(viewModel: AuthViewModel, navController: NavController) {
         when (loginState) {
             is AuthState.Success -> {
                 Log.d("LaunchedEffect", "Navigating to screen4")
-                navController.navigate(Screens.screen4.route) {
+                navController.navigate(Screens.dashboard1.route) {
                     popUpTo(Screens.signin.route) { inclusive = true }
                 }
                 viewModel.resetLoginState()
@@ -98,7 +98,7 @@ fun SignIn(viewModel: AuthViewModel, navController: NavController) {
 
     Box(modifier = Modifier.fillMaxSize()) {
         Image(
-            painter = painterResource(R.drawable.letsdoit),
+            painter = painterResource(R.drawable.mainbackground),
             contentDescription = "Background",
             contentScale = ContentScale.Crop,
             modifier = Modifier.fillMaxSize()
