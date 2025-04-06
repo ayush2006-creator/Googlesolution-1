@@ -4,6 +4,7 @@ const router = express.Router();
 const bcrypt = require('bcryptjs');
 const passport = require('passport');
 const prisma = require('../db'); // Import your Prisma client
+const ensureAuthenticated = require('../middleware/auth'); // Import authentication middleware
 
 // API Signup Route
 router.post('/signup', async (req, res) => {
