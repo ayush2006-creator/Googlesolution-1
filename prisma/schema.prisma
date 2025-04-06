@@ -12,7 +12,7 @@ model User {
   email              String             @unique
   password           String
   username           String             @default("username not set")
-  isTherapistFriend  Boolean            @default(false)
+  isTherapistFriend  Boolean          @default(false)
   createdAt          DateTime           @default(now())
   streak             Streak?            @relation("UserStreaks")
   friendships        Friendships[]      @relation("UserFriendships")
@@ -21,10 +21,10 @@ model User {
   therapist          Therapist?
   TherapistRequest   TherapistRequest[]
   image              String? 
-  milestones         Milestone[]             
+  milestones         Milestones[]             
 }
 
-model Milestone{
+model Milestones{
   id        String   @id @default(uuid()) @db.Uuid
   userId    String   @db.Uuid
   title     String
