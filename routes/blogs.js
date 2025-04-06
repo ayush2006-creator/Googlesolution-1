@@ -40,11 +40,22 @@ router.get('/all',ensureAuthenticated, async (req, res) => {
               // Add other user fields you want to return
             },
           },
+          comments: {
+            select: { 
+              content: true,
+              createdAt: true,
+              user: {
+                select: {
+                  id: true,
+                  username: true,
+                },
+              },
+            }
         },
         orderBy: {
           createdAt: 'desc', // Order by creation date (newest first)
         },
-      });
+      }});
   
       res.status(200).json(blogs);
     } catch (error) {
@@ -64,6 +75,7 @@ router.get('/all',ensureAuthenticated, async (req, res) => {
                 OR: [
                     { title: { contains: query, mode: 'insensitive' } },
                     { content: { contains: query, mode: 'insensitive' } },
+                    {author: { username: { contains: query, mode: 'insensitive' } }}, // Assuming you want to search by author's username too
                 ],
             };
         }
@@ -77,6 +89,18 @@ router.get('/all',ensureAuthenticated, async (req, res) => {
                         username: true,
                         email: true,
                     },
+                },
+                comments: {
+                    select: { 
+                        content: true,
+                        createdAt: true,
+                        user: {
+                            select: {
+                                id: true,
+                                username: true,
+                            },
+                        },
+                    }
                 },
             },
             orderBy: {
