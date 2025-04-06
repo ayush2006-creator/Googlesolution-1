@@ -78,7 +78,7 @@ fun SignUp(navController: NavController,viewModel: AuthViewModel) {
         when (SignupState) {
             is AuthState.Success -> {
                 Log.d("LaunchedEffect", "Navigating to screen4")
-                navController.navigate(Screens.screen4.route) {
+                navController.navigate(Screens.enemychose.route) {
                     popUpTo(Screens.signin.route) { inclusive = true }
                 }
                 viewModel.resetLoginState()

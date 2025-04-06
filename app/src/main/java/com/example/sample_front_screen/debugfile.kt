@@ -1,12 +1,19 @@
 package com.example.sample_front_screen
 
+import android.content.Context
+import androidx.test.core.app.ApplicationProvider
 import kotlinx.coroutines.runBlocking
 
 
 fun main() = runBlocking {
+    val context = ApplicationProvider.getApplicationContext<Context>()
+    KtorClient.initialize(context)
+
+    // THEN get the client instance
     val authApi = AuthApiImpl(KtorClient.client)
     val streakApi = StreakApiServiceImpl(KtorClient.client)
     val leaderboardApi = LeaderboardApiImpl(KtorClient.client)
+
 
     // Test Signup
 

@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    kotlin("plugin.serialization") version "1.9.0"
 }
 
 android {
@@ -41,6 +42,9 @@ android {
 }
 val ktor_version: String by project
 dependencies {
+
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0")
+    implementation ("io.ktor:ktor-serialization-kotlinx-json:2.3.5")
     implementation("androidx.constraintlayout:constraintlayout-compose:1.0.1")
     implementation ("androidx.compose.material3:material3:1.3.1")
     implementation("androidx.compose.material:material-icons-extended:1.6.1")
@@ -52,16 +56,19 @@ dependencies {
 
         // Agora RTC SDK
     implementation( "io.agora.rtc:full-sdk:3.7.2")
+// IMAGE INPUT
+    implementation("io.coil-kt:coil-compose:2.4.0") // Check for latest version
 
-
-
+    implementation ("com.google.accompanist:accompanist-permissions:0.31.3-beta")
 
     // Ktor OkHttp engine (for Android)
     implementation("io.ktor:ktor-client-okhttp:2.3.5")
+    implementation("io.ktor:ktor-client-logging:2.3.5")
     // Ktor Content Negotiation (for JSON serialization)
     implementation("io.ktor:ktor-client-content-negotiation:2.3.5")
     // Ktor Gson serializer
     implementation("io.ktor:ktor-serialization-gson:2.3.5")
+    implementation( "com.airbnb.android:lottie-compose:6.4.0")// lotte animation
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
@@ -72,6 +79,7 @@ dependencies {
     implementation(libs.androidx.material3)
     implementation(libs.androidx.navigation.compose)
     implementation(libs.firebase.firestore.ktx)
+    implementation(libs.core.ktx)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
